@@ -15,6 +15,24 @@ bash install_ispc.sh
 
 ### 2、编译Blender
 
+修改LIB_DIR和INST_DIR指定安装路径
+
+```shell
+LIB_DIR="/home/[username]/lib"
+INST_DIR="/opt/blender3.2"
+```
+
+安装Blender
+
 ```shell
 bash install_blender.sh
 ```
+
+运行Blender
+
+```shell
+/opt/blender3.2/blender
+```
+
+
+
