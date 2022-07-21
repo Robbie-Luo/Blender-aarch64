@@ -5,6 +5,8 @@ INST_DIR="/opt/blender3.2"
 BUILD_TYPE="Release"
 FORCE_REBUILD="false"
 
+CURR_DIR=$(pwd)
+
 if [ ! -d $INST_DIR ];then
     mkdir $INST_DIR
 fi
@@ -68,6 +70,7 @@ function compile_boost()
 function compile_blender()
 {
     prepare_build $1 $2 $3
+    git apply $CURR_DIR/blender-oidn.patch
     PREFIX=$INST_DIR/
     cmake_d="$4"
     cmake_d="$cmake_d -DCMAKE_BUILD_TYPE=Release"
@@ -108,8 +111,6 @@ compile_deps ocio v2.1.2 https://github.com/AcademySoftwareFoundation/OpenColorI
 oiio_d="-D STOP_ON_WARNING=OFF -D USE_QT=OFF -D USE_PYTHON=OFF -D USE_FFMPEG=OFF -D USE_OPENVDB=OFF -D BUILD_TESTING=OFF -D OIIO_BUILD_TESTS=OFF -D OIIO_BUILD_TOOLS=OFF"
 compile_deps oiio v2.3.16.0 https://github.com/OpenImageIO/oiio.git "$oiio_d"
 
-
-
 osl_d="-D CMAKE_CXX_STANDARD=14 -D USE_LLVM_BITCODE=OFF -D USE_PARTIO=OFF -D USE_PYTHON=OFF -D USE_QT=OFF -D INSTALL_DOCS=OFF"
 if [ $(uname -m) != "aarch64" ]; then
     osl_d="$osl_d -D USE_SIMD=sse2"
@@ -127,12 +128,4 @@ else
     fi
 fi
 compile_blender blender v3.2.0 https://github.com/blender/blender.git "-DWITH_OPENVDB=OFF -DWITH_USD=OFF"
-
 ldconfig
-
-
-
-
-
-
-    

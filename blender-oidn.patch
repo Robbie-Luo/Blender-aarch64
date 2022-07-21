@@ -1,0 +1,13 @@
+diff --git a/intern/cycles/util/openimagedenoise.h b/intern/cycles/util/openimagedenoise.h
+index ac946777a8c..6b5ef5ada30 100644
+--- a/intern/cycles/util/openimagedenoise.h
++++ b/intern/cycles/util/openimagedenoise.h
+@@ -15,7 +15,7 @@ CCL_NAMESPACE_BEGIN
+ static inline bool openimagedenoise_supported()
+ {
+ #ifdef WITH_OPENIMAGEDENOISE
+-#  ifdef __APPLE__
++#  ifdef __aarch64__
+   /* Always supported through Accelerate framework BNNS. */
+   return true;
+ #  else
