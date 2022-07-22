@@ -7,9 +7,7 @@ FORCE_REBUILD="false"
 
 CURR_DIR=$(pwd)
 
-if [ ! -d $INST_DIR ];then
-    mkdir $INST_DIR
-fi
+mkdir -p $INST_DIR
 echo "$INST_DIR/deps/lib" > /etc/ld.so.conf.d/blender.conf
 
 export PATH="$INST_DIR/deps/bin:$PATH"
@@ -25,9 +23,7 @@ function prepare_build()
     fi
     cd $SRC
     git checkout $VERSION
-    if [ ! -d build ];then
-        mkdir build
-    fi
+    mkdir -p build
     cd build
     if [ "$FORCE_REBUILD" = true ];then
         rm -rf *
@@ -79,16 +75,18 @@ function compile_blender()
     ninja install    
 }
 
-apt build-dep libopenimageio-dev libglfw3-dev
-apt install -y libpugixml-dev libpcre3-dev libxml2-dev libavdevice-dev llvm-12-dev libclang-12-dev\
-             gawk cmake cmake-curses-gui build-essential libjpeg-dev libpng-dev libtiff-dev \
-             git libfreetype6-dev libfontconfig-dev libx11-dev flex bison libxxf86vm-dev \
+apt install -y git git-lfs cmake cmake-curses-gui build-essential llvm-12-dev libclang-12-dev \ 
+             ffmpeg libpugixml-dev libpcre3-dev libxml2-dev libavdevice-dev \
+             gawk libjpeg-dev libpng-dev libtiff-dev \
+             libfreetype6-dev libfontconfig-dev libx11-dev flex bison libxxf86vm-dev \
              libxcursor-dev libxi-dev wget libsqlite3-dev libxrandr-dev libxinerama-dev \
              libwayland-dev wayland-protocols libegl-dev libxkbcommon-dev libdbus-1-dev linux-libc-dev \
              libbz2-dev libncurses5-dev libssl-dev liblzma-dev libreadline-dev \
              libopenal-dev libglew-dev libglfw3-dev yasm \
-             libsdl2-dev libfftw3-dev patch bzip2 libxml2-dev libtinyxml-dev libjemalloc-dev \
-             libgmp-dev libpugixml-dev libpotrace-dev libhpdf-dev libzstd-dev
+             libsdl2-dev libfftw3-dev patch bzip2 libtinyxml-dev libjemalloc-dev \
+             libgmp-dev libpotrace-dev libhpdf-dev libzstd-dev
+
+apt build-dep libopenimageio-dev libglfw3-dev
 
 compile_deps oneTBB v2021.5.0 https://github.com/oneapi-src/oneTBB.git 
 compile_py python v3.10.5 https://github.com/python/cpython.git
@@ -119,9 +117,9 @@ compile_deps osl Release-1.11.17.0 https://github.com/AcademySoftwareFoundation/
 compile_deps osd v3_4_4 https://github.com/PixarAnimationStudios/OpenSubdiv.git "-DNO_TBB=ON -DNO_DOC=ON -DNO_OPENCL=ON -DNO_CUDA=ON"
 
 if [ ! -f /usr/local/bin/ispc ];then    
-    compile_deps embree v3.13.3 https://github.com/embree/embree.git "-DEMBREE_RAY_PACKETS=ON -DEMBREE_ISPC_SUPPORT=OFF"
+    compile_deps embree v3.13.3 https://github.com/embree/embree.git "-DEMBREE_RAY_MASK=ON -DEMBREE_ISPC_SUPPORT=OFF"
 else
-    compile_deps embree v3.13.3 https://github.com/embree/embree.git "-DEMBREE_RAY_PACKETS=ON"
+    compile_deps embree v3.13.3 https://github.com/embree/embree.git "-DEMBREE_RAY_MASK=ON"
     if [ $(uname -m) == "aarch64" ]; then
         compile_deps openblas v0.3.20 https://github.com/xianyi/OpenBLAS.git
         compile_deps oidn master https://github.com/Robbie-Luo/oidn-aarch64.git "-DDNNL_BLAS_VENDOR=OPENBLAS"

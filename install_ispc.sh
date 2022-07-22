@@ -5,9 +5,8 @@ INST_DIR="/opt/ispc"
 BUILD_TYPE="Release"
 FORCE_REBUILD="false"
 
-if [ ! -d $INST_DIR ];then
-    mkdir $INST_DIR
-fi
+
+mkdir -p $INST_DIR
 echo "$INST_DIR/deps/lib" > /etc/ld.so.conf.d/blender.conf
 
 export PATH="$INST_DIR/deps/bin:$PATH"
@@ -23,9 +22,7 @@ function prepare_build()
     fi
     cd $SRC
     git checkout $VERSION
-    if [ ! -d build ];then
-        mkdir build
-    fi
+    mkdir -p build
     cd build
     if [ "$FORCE_REBUILD" = true ];then
         rm -rf *
