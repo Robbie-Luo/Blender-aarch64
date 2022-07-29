@@ -75,7 +75,7 @@ function compile_blender()
     ninja install    
 }
 
-apt install -y git git-lfs cmake cmake-curses-gui build-essential llvm-12-dev libclang-12-dev \ 
+apt install -y git git-lfs cmake cmake-curses-gui build-essential llvm-12-dev libclang-12-dev \
              ffmpeg libpugixml-dev libpcre3-dev libxml2-dev libavdevice-dev \
              gawk libjpeg-dev libpng-dev libtiff-dev \
              libfreetype6-dev libfontconfig-dev libx11-dev flex bison libxxf86vm-dev \
